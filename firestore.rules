@@ -1,0 +1,34 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // A signed-in Google account with a verified email.
+    function signedIn() {
+      return request.auth != null && request.auth.token.email_verified == true;
+    }
+
+    // ONLY these addresses can publish data and edit the member lists.
+    // Replace you@gmail.com with your own Gmail (lowercase). Add more inside the brackets, separated by commas.
+    function isAdmin() {
+      return signedIn() && request.auth.token.email.lower() in ['you@gmail.com'];
+    }
+
+    // Approved for ONE clan = a document exists at members/<clanId>__<email>
+    // (the Data page in the website creates and removes these for you).
+    function isMember(clan) {
+      return signedIn()
+        && exists(/databases/$(database)/documents/members/$(clan + '__' + request.auth.token.email.lower()));
+    }
+
+    // Each clan's records: members can read their own clan only; only the admin can write.
+    match /stats/{clan} {
+      allow read: if isAdmin() || isMember(clan);
+      allow write: if isAdmin();
+    }
+
+    // The member lists are private to the admin.
+    match /members/{id} {
+      allow read, write: if isAdmin();
+    }
+  }
+}

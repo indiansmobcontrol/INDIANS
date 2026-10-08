@@ -8,14 +8,14 @@
 // ============================================================================
 export const FIREBASE = {
   config: {
-    apiKey: '',
-    authDomain: '',
-    projectId: '',
-    storageBucket: '',
-    messagingSenderId: '',
-    appId: '',
+    apiKey: 'AIzaSyDrhDg4AVEeC1ARvjUyrSAEyfJLbMlPwiI',
+    authDomain: 'indians-stat-center.firebaseapp.com',
+    projectId: 'indians-stat-center',
+    storageBucket: 'indians-stat-center.firebasestorage.app',
+    messagingSenderId: '376412619168',
+    appId: '1:376412619168:web:278cecf3da46bae75724c5',
   },
   // Gmail addresses allowed to open the Data page and publish. Lowercase.
   // (The real restriction is the same address inside the Firestore rules.)
-  admins: ['you@gmail.com'],
+  admins: ['indiansmobcontrol@gmail.com'],
 };
